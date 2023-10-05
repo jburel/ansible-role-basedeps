@@ -1,5 +1,16 @@
 ---
 # tasks file for roles/basedeps
+- name: System | Repositories | Add CRB repository for RHEL
+  become: true
+  ansible.builtin.command:
+    subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
+  when: ansible_facts['distribution'] == "RedHat"
+
+#- name: zeroc ice | set-enabled crb
+#  become: true
+#  ansible.builtin.command: dnf config-manager --set-enabled crb
+#  state: present
+
 - name: system packages | install epel repo
   become: true
   ansible.builtin.dnf:
