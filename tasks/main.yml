@@ -1,13 +1,11 @@
 ---
 # tasks file for roles/basedeps
-- name: System | Repositories | Add CRB repository for RHEL
-  become: true
-  ansible.builtin.command:
-    subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
+- name: Enable a RHSM repository
+  community.general.rhsm_repository:
+    name: rhel-9-server-rpms
   when: ansible_os_family == 'RedHat'
 
-
-# use separate yum/apt tasks because package only installs one item at a time
+# use separate dnf tasks because package only installs one item at a time
 - name: system packages | basic system utils (rockylinux)
   become: true
   ansible.builtin.dnf:
