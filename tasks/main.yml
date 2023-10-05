@@ -1,5 +1,6 @@
 ---
-# use separate dnf tasks because package only installs one item at a time
+# use separate dnf tasks 
+# because package only installs one item at a time
 - name: System packages | basic system utils (rockylinux)
   become: true
   ansible.builtin.dnf:
