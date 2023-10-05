@@ -1,36 +1,13 @@
 ---
-# tasks file for roles/basedeps
-- name: System | Repositories | Add CRB repository for RHEL
-  become: true
-  ansible.builtin.command:
-    subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms
-  when: ansible_os_family == 'RedHat'
-
-- name: System | install config-manager
-  become: true
-  ansible.builtin.dnf:
-    update_cache: true
-    name:
-      - 'dnf-command(config-manager)'
-    state: present
-  when: ansible_os_family == 'Rocky'
-
-- name: System | Enable crp repo
-  ansible.builtin.replace:
-    path:  /etc/yum.repos.d/rocky.repo
-    regexp: enabled=0
-    replace: enabled=1
-  when: ansible_os_family == 'Rocky'
-
 # use separate dnf tasks because package only installs one item at a time
-- name: system packages | basic system utils (rockylinux)
+- name: System packages | basic system utils (rockylinux)
   become: true
   ansible.builtin.dnf:
     name: "{{ basedeps_packages.redhat }}"
     state: present
   when: ansible_os_family == 'RedHat'
 
-- name: system packages | basic system utils (ubuntu)
+- name: System packages | basic system utils (ubuntu)
   become: true
   ansible.builtin.apt:
     update_cache: true
